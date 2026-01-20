@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Contact Us</title>
+    <meta name="description" content="Contact the UK Driving Theory Test team." />
+    <style>
+      :root {
+        --bg: #050b1e;
+        --card: rgba(9, 16, 40, 0.9);
+        --text: #f3f6ff;
+        --muted: rgba(243, 246, 255, 0.7);
+        --border: rgba(255, 255, 255, 0.12);
+        --accent: #1147d6;
+        --accent2: #19c37d;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+        background:
+          radial-gradient(1000px 600px at 15% 0%, rgba(17, 71, 214, 0.35) 0%, rgba(5, 11, 30, 0) 60%),
+          radial-gradient(900px 520px at 85% 10%, rgba(25, 195, 125, 0.22) 0%, rgba(5, 11, 30, 0) 55%),
+          linear-gradient(180deg, var(--bg), #040818 55%, #030614);
+        color: var(--text);
+        line-height: 1.45;
+      }
+      .wrap {
+        max-width: 760px;
+        margin: 0 auto;
+        padding: 28px 16px 60px;
+      }
+      .back {
+        display: inline-flex;
+        margin-bottom: 18px;
+        color: var(--muted);
+        text-decoration: none;
+        font-weight: 600;
+      }
+      .back:hover { color: var(--text); }
+      .card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        padding: 22px;
+        box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+        backdrop-filter: blur(8px);
+      }
+      h1 {
+        font-size: 22px;
+        margin: 0 0 8px;
+        letter-spacing: 0.2px;
+      }
+      p { margin: 10px 0; color: var(--muted); }
+      label {
+        display: block;
+        margin: 16px 0 8px;
+        color: var(--text);
+        font-weight: 600;
+      }
+      input[type="text"],
+      textarea {
+        width: 100%;
+        padding: 12px 12px;
+        border-radius: 12px;
+        border: 1px solid var(--border);
+        background: rgba(0, 0, 0, 0.25);
+        color: var(--text);
+        outline: none;
+        font-size: 16px;
+        font-family: inherit;
+      }
+      textarea { resize: vertical; min-height: 140px; }
+      input[type="text"]:focus,
+      textarea:focus {
+        border-color: rgba(17, 71, 214, 0.7);
+        box-shadow: 0 0 0 3px rgba(17, 71, 214, 0.18);
+      }
+      .row {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-top: 18px;
+      }
+      button {
+        appearance: none;
+        border: 0;
+        border-radius: 12px;
+        padding: 12px 16px;
+        font-weight: 800;
+        cursor: pointer;
+        font-size: 15px;
+      }
+      .primary {
+        background: linear-gradient(135deg, var(--accent), var(--accent2));
+        color: #051228;
+        min-width: 220px;
+      }
+      .note {
+        margin-top: 14px;
+        color: var(--muted);
+        font-size: 13px;
+      }
+      a { color: #9db7ff; }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <a class="back" href="/index.html">Back to home</a>
+
+      <div class="card">
+        <h1>Contact us</h1>
+        <p>Send a message and your email app will open with the details prefilled.</p>
+
+        <form id="contactForm">
+          <label for="name">Your name</label>
+          <input
+            id="name"
+            name="name"
+            type="text"
+            autocomplete="name"
+            placeholder="Jane Doe"
+            required
+          />
+
+          <label for="message">Message</label>
+          <textarea
+            id="message"
+            name="message"
+            placeholder="Tell us how we can help."
+            required
+          ></textarea>
+
+          <div class="row">
+            <button type="submit" class="primary">Open email draft</button>
+          </div>
+
+          <p class="note">
+            If your email app does not open, email us at
+            <a href="mailto:ukdrivingtheorytestkit@gmail.com">ukdrivingtheorytestkit@gmail.com</a>.
+          </p>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        const SUPPORT_EMAIL = "ukdrivingtheorytestkit@gmail.com";
+
+        const form = document.getElementById("contactForm");
+        const nameInput = document.getElementById("name");
+        const messageInput = document.getElementById("message");
+
+        function buildMailto(name, message) {
+          const subject = "Contact from UK Driving Theory Test site";
+          const body =
+            "Name: " + (name || "") + "\n\n" +
+            "Message:\n" + (message || "");
+
+          return (
+            "mailto:" +
+            SUPPORT_EMAIL +
+            "?subject=" +
+            encodeURIComponent(subject) +
+            "&body=" +
+            encodeURIComponent(body)
+          );
+        }
+
+        form.addEventListener("submit", function (e) {
+          e.preventDefault();
+          const name = (nameInput.value || "").trim();
+          const message = (messageInput.value || "").trim();
+          window.location.href = buildMailto(name, message);
+        });
+      })();
+    </script>
+  </body>
+</html>
