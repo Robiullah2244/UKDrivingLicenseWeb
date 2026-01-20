@@ -289,12 +289,51 @@
       margin-top:14px;
       padding:14px;
     }
-    video{
+    .video-poster,
+    .demo-video{
       width:100%;
       border-radius: 16px;
       border: 1px solid rgba(255,255,255,.12);
       background:#000;
     }
+    .video-poster{
+      position:relative;
+      display:block;
+      padding:0;
+      cursor:pointer;
+      overflow:hidden;
+    }
+    .video-poster img{
+      width:100%;
+      height: clamp(180px, 28vw, 280px);
+      object-fit: contain;
+      display:block;
+      background:#000;
+    }
+    .video-poster .play{
+      position:absolute;
+      inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color: var(--text);
+      font-weight:900;
+      font-size:12px;
+      letter-spacing:.6px;
+      text-transform:uppercase;
+      background: rgba(0,0,0,.35);
+    }
+    .video-poster:focus-visible{
+      outline: 2px solid rgba(17,71,214,.8);
+      outline-offset: 2px;
+    }
+    .demo-video{
+      display:none;
+      height: clamp(180px, 28vw, 280px);
+      object-fit: contain;
+    }
+    .video.is-playing .video-poster{display:none}
+    .video.is-playing .demo-video{display:block}
 
     /* SOCIAL PROOF */
     .proof{
@@ -539,8 +578,11 @@
         <p>A short demo to see the flow and UI.</p>
 
         <div class="panel video">
-          <video controls playsinline preload="metadata">
-            <source src="assets/app-demo.mp4" type="video/mp4" />
+          <button class="video-poster" type="button" aria-label="Play demo video">
+            <img src="assets/screens/Home.png" alt="Demo video preview" />
+            <span class="play">Play demo</span>
+          </button>
+          <video class="demo-video" controls playsinline preload="none" data-src="assets/app-demo.mp4" poster="assets/screens/Home.png">
             Your browser does not support the video tag.
           </video>
         </div>
@@ -624,6 +666,24 @@
         img.src = t.dataset.img;
       });
     });
+
+    // lazy-load demo video on click
+    const videoWrap = document.querySelector(".video");
+    const posterBtn = document.querySelector(".video-poster");
+    const demoVideo = document.querySelector(".demo-video");
+    if (videoWrap && posterBtn && demoVideo) {
+      posterBtn.addEventListener("click", () => {
+        if (!demoVideo.getAttribute("src")) {
+          demoVideo.setAttribute("src", demoVideo.dataset.src);
+          demoVideo.load();
+        }
+        videoWrap.classList.add("is-playing");
+        const playPromise = demoVideo.play();
+        if (playPromise && typeof playPromise.catch === "function") {
+          playPromise.catch(() => {});
+        }
+      });
+    }
   </script>
 </body>
 </html>
