@@ -1,0 +1,620 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>UK Driving Theory Test App</title>
+
+  <meta name="description" content="Prepare for the UK Driving Theory Test with practice questions, mock tests, hazard test training, and progress tracking." />
+  <meta name="theme-color" content="#0A2A8A" />
+
+  <style>
+    :root{
+      /* UK driving licence vibe */
+      --blue-900:#061437;
+      --blue-800:#0A1F5E;
+      --blue-700:#0A2A8A;     /* main */
+      --blue-600:#1147D6;     /* bright */
+      --green-600:#00A36C;    /* accent */
+      --green-500:#19C37D;
+
+      --bg: #050B1E;
+      --card: rgba(255,255,255,.06);
+      --card2: rgba(255,255,255,.08);
+      --text:#F3F6FF;
+      --muted: rgba(243,246,255,.72);
+      --border: rgba(255,255,255,.12);
+      --shadow: 0 20px 55px rgba(0,0,0,.35);
+
+      --radius: 18px;
+      --radius2: 22px;
+      --max: 1180px;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(1100px 600px at 15% 0%, rgba(17,71,214,.35) 0%, rgba(5,11,30,0) 60%),
+        radial-gradient(900px 520px at 85% 10%, rgba(25,195,125,.22) 0%, rgba(5,11,30,0) 55%),
+        linear-gradient(180deg, var(--bg), #040818 55%, #030614);
+      line-height:1.45;
+    }
+    a{color:inherit; text-decoration:none}
+    .wrap{max-width:var(--max); margin:0 auto; padding:0 18px}
+
+    /* NAV */
+    .nav{
+      position:sticky; top:0; z-index:50;
+      backdrop-filter: blur(10px);
+      background: rgba(5,11,30,.72);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner{
+      display:flex; align-items:center; justify-content:space-between;
+      gap:12px; padding:14px 0;
+    }
+    .brand{
+      display:flex; align-items:center; gap:10px;
+      font-weight:900; letter-spacing:.2px;
+      white-space:nowrap;
+    }
+    .logo{
+      width:36px;height:36px;border-radius:12px;
+      background: linear-gradient(135deg, var(--blue-600), var(--blue-700));
+      border:1px solid rgba(255,255,255,.16);
+      box-shadow: 0 20px 45px rgba(17,71,214,.22);
+      position:relative;
+      overflow:hidden;
+    }
+    .logo:after{
+      content:"";
+      position:absolute; inset:-30px;
+      background: radial-gradient(circle at 30% 20%, rgba(255,255,255,.35), rgba(255,255,255,0) 55%);
+      transform: rotate(12deg);
+    }
+
+    .links{
+      display:flex; gap:14px; align-items:center; flex-wrap:wrap;
+      color:var(--muted); font-weight:750; font-size:14px;
+    }
+    .links a{opacity:.9}
+    .links a:hover{opacity:1; color:var(--text)}
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      gap:10px;
+      padding:12px 14px;
+      border-radius:14px;
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.03);
+      font-weight:900;
+      transition: transform .15s ease, border-color .15s ease, box-shadow .15s ease;
+      will-change: transform;
+      white-space:nowrap;
+    }
+    .btn:hover{transform: translateY(-1px); border-color: rgba(255,255,255,.22)}
+    .btn.primary{
+      border:0;
+      color:#06102A;
+      background: linear-gradient(135deg, var(--blue-600), var(--blue-700));
+      box-shadow: 0 18px 40px rgba(17,71,214,.22);
+    }
+    .btn.green{
+      border:0;
+      color:#04140E;
+      background: linear-gradient(135deg, var(--green-500), var(--green-600));
+      box-shadow: 0 18px 40px rgba(25,195,125,.18);
+    }
+
+    /* HERO */
+    .hero{padding:44px 0 24px}
+    .grid-hero{
+      display:grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap:20px;
+      align-items:start;
+    }
+    .badge{
+      display:inline-flex; align-items:center; gap:10px;
+      padding:8px 12px;
+      border-radius:999px;
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.04);
+      color: var(--muted);
+      font-weight:800;
+      font-size:13px;
+    }
+    .dot{
+      width:9px;height:9px;border-radius:999px;
+      background: linear-gradient(135deg, var(--green-500), var(--green-600));
+      box-shadow: 0 0 0 4px rgba(25,195,125,.12);
+    }
+    h1{
+      margin:14px 0 10px;
+      font-size:46px;
+      line-height:1.06;
+      letter-spacing:-.8px;
+    }
+    .sub{
+      margin:0 0 18px;
+      color:var(--muted);
+      font-size:16px;
+      max-width: 62ch;
+    }
+    .cta{
+      display:flex; gap:12px; flex-wrap:wrap;
+      margin-top: 14px;
+    }
+    .trust{
+      display:flex; gap:10px; flex-wrap:wrap;
+      margin-top: 14px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .trust span{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:8px 10px;
+      border-radius:999px;
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.03);
+    }
+    .check{
+      width:16px;height:16px;
+      border-radius:999px;
+      background: rgba(25,195,125,.18);
+      border:1px solid rgba(25,195,125,.35);
+      position:relative;
+    }
+    .check:after{
+      content:"";
+      position:absolute;
+      left:5px; top:3px;
+      width:4px; height:7px;
+      border-right:2px solid var(--green-500);
+      border-bottom:2px solid var(--green-500);
+      transform: rotate(35deg);
+    }
+
+    /* PHONE MOCKUP + CAROUSEL */
+    .panel{
+      background: var(--card);
+      border:1px solid var(--border);
+      border-radius: var(--radius2);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .phone-wrap{padding:16px}
+    .phone{
+      width: 100%;
+      max-width: 420px;
+      margin: 0 auto;
+      border-radius: 32px;
+      padding: 14px;
+      background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.04));
+      border: 1px solid rgba(255,255,255,.14);
+      box-shadow: 0 30px 70px rgba(0,0,0,.45);
+      position:relative;
+    }
+    .phone:before{
+      content:"";
+      position:absolute;
+      top: 10px; left: 50%;
+      transform: translateX(-50%);
+      width: 38%;
+      height: 10px;
+      border-radius: 99px;
+      background: rgba(0,0,0,.38);
+      border: 1px solid rgba(255,255,255,.10);
+    }
+    .screen{
+      overflow:hidden;
+      border-radius: 24px;
+      background:#000;
+      border: 1px solid rgba(255,255,255,.12);
+    }
+    .screen img{
+      width:100%;
+      display:block;
+      height:auto;
+    }
+
+    .tabs{
+      display:flex;
+      gap:8px;
+      padding: 12px 14px 14px;
+      border-top: 1px solid var(--border);
+      background: rgba(255,255,255,.03);
+      flex-wrap:wrap;
+      justify-content:center;
+    }
+    .tab{
+      padding:8px 10px;
+      border-radius:999px;
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.03);
+      color: var(--muted);
+      font-weight:800;
+      font-size:13px;
+      cursor:pointer;
+      user-select:none;
+      transition: transform .12s ease, border-color .12s ease, background .12s ease;
+    }
+    .tab:hover{transform: translateY(-1px); border-color: rgba(255,255,255,.22)}
+    .tab.active{
+      color: var(--text);
+      border-color: rgba(17,71,214,.45);
+      background: linear-gradient(135deg, rgba(17,71,214,.30), rgba(10,42,138,.20));
+    }
+
+    /* SECTIONS */
+    .section{padding:26px 0}
+    .section h2{
+      margin:0 0 10px;
+      font-size:28px;
+      letter-spacing:-.3px;
+    }
+    .section p{margin:0; color:var(--muted)}
+    .grid3{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:12px;
+      margin-top: 14px;
+    }
+    .cardx{
+      padding:16px;
+      border-radius: var(--radius);
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.04);
+    }
+    .icon{
+      width:40px;height:40px;border-radius:14px;
+      display:flex; align-items:center; justify-content:center;
+      background: linear-gradient(135deg, rgba(17,71,214,.30), rgba(10,42,138,.20));
+      border:1px solid rgba(17,71,214,.35);
+      margin-bottom: 10px;
+    }
+    .icon svg{opacity:.95}
+    .cardx h3{margin:0 0 6px; font-size:16px}
+    .cardx p{margin:0; font-size:14px; color:var(--muted)}
+
+    /* VIDEO SECTION */
+    .video{
+      margin-top:14px;
+      padding:14px;
+    }
+    video{
+      width:100%;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.12);
+      background:#000;
+    }
+
+    /* SOCIAL PROOF */
+    .proof{
+      margin-top:14px;
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:12px;
+    }
+    .metric{
+      padding:16px;
+      border-radius: var(--radius);
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.04);
+    }
+    .metric strong{display:block; font-size:18px}
+    .metric span{color:var(--muted); font-size:13px}
+
+    /* FINAL CTA */
+    .final{
+      padding:26px 0 40px;
+    }
+    .cta-box{
+      padding:18px;
+      border-radius: var(--radius2);
+      border:1px solid rgba(17,71,214,.35);
+      background:
+        radial-gradient(900px 380px at 20% 0%, rgba(17,71,214,.25), rgba(255,255,255,0) 60%),
+        radial-gradient(900px 380px at 85% 10%, rgba(25,195,125,.18), rgba(255,255,255,0) 55%),
+        rgba(255,255,255,.04);
+      box-shadow: var(--shadow);
+      display:flex;
+      gap:16px;
+      align-items:center;
+      justify-content:space-between;
+      flex-wrap:wrap;
+    }
+    .cta-box h2{margin:0; font-size:26px}
+    .cta-box p{margin:6px 0 0; color:var(--muted)}
+    .footer{
+      border-top:1px solid var(--border);
+      padding:22px 0 30px;
+      color:var(--muted);
+      font-size:13px;
+    }
+    .footer a{color:var(--muted); text-decoration:underline}
+    .footer a:hover{color:var(--text)}
+
+    /* RESPONSIVE */
+    @media (max-width: 980px){
+      .grid-hero{grid-template-columns:1fr}
+      h1{font-size:38px}
+      .grid3{grid-template-columns:1fr}
+      .proof{grid-template-columns:1fr}
+      .links{display:none} /* keep it clean on small screens */
+    }
+  </style>
+</head>
+
+<body>
+  <header class="nav">
+    <div class="wrap">
+      <div class="nav-inner">
+        <div class="brand">
+          <div class="logo" aria-hidden="true"></div>
+          <div>UK Driving Theory Test</div>
+        </div>
+
+        <nav class="links" aria-label="Primary">
+          <a href="#features">Features</a>
+          <a href="#demo">Video</a>
+          <a href="#how">How it works</a>
+          <a href="#support">Support</a>
+        </nav>
+
+        <a class="btn green" href="#download">Download</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section class="hero">
+      <div class="wrap">
+        <div class="grid-hero">
+          <div>
+            <div class="badge"><span class="dot"></span> Theory practice • Mock tests • Hazard training</div>
+            <h1>Pass your UK Driving Theory Test with a clear daily study plan.</h1>
+            <p class="sub">
+              Train by topic, take realistic mock tests, and review mistakes.
+              Built for quick sessions so you can improve every day.
+            </p>
+
+            <div id="download" class="cta">
+              <!-- Replace with your real store URLs -->
+              <a class="btn primary" href="https://play.google.com/store" target="_blank" rel="noopener">Get it on Google Play</a>
+              <a class="btn" href="https://apps.apple.com" target="_blank" rel="noopener">Download on the App Store</a>
+            </div>
+
+            <div class="trust">
+              <span><i class="check"></i> Easy topic practice</span>
+              <span><i class="check"></i> Mock test mode</span>
+              <span><i class="check"></i> Review & retake</span>
+            </div>
+          </div>
+
+          <!-- Phone + screenshots -->
+          <div class="panel">
+            <div class="phone-wrap">
+              <div class="phone" aria-label="App screenshots">
+                <div class="screen">
+                  <!-- default image shown first -->
+                  <img id="shot" src="/assets/screens/screenshot_006s.png" alt="App screenshot" />
+                </div>
+              </div>
+            </div>
+
+            <div class="tabs" role="tablist" aria-label="Screenshots">
+              <div class="tab active" data-img="/assets/screens/screenshot_006s.png">Home</div>
+              <div class="tab" data-img="/assets/screens/screenshot_019s.png">Theory</div>
+              <div class="tab" data-img="/assets/screens/screenshot_042s.png">Topics</div>
+              <div class="tab" data-img="/assets/screens/screenshot_084s.png">Question</div>
+              <div class="tab" data-img="/assets/screens/screenshot_103s.png">Results</div>
+              <div class="tab" data-img="/assets/screens/screenshot_151s.png">Review</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SOCIAL PROOF -->
+    <section class="section">
+      <div class="wrap">
+        <h2>Built for real exam preparation</h2>
+        <p>Simple interface, fast learning flow, and clear progress.</p>
+
+        <div class="proof">
+          <div class="metric">
+            <strong>Topic practice</strong>
+            <span>Learn by section and strengthen weak areas.</span>
+          </div>
+          <div class="metric">
+            <strong>Mock tests</strong>
+            <span>Exam-style experience to build confidence.</span>
+          </div>
+          <div class="metric">
+            <strong>Review mistakes</strong>
+            <span>Retake and improve faster over time.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURES -->
+    <section class="section" id="features">
+      <div class="wrap">
+        <h2>Features</h2>
+        <p>Everything needed to prepare in one app.</p>
+
+        <div class="grid3">
+          <div class="cardx">
+            <div class="icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path d="M7 7h10M7 11h10M7 15h6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <path d="M6 3h12a3 3 0 0 1 3 3v12a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V6a3 3 0 0 1 3-3Z"
+                      stroke="currentColor" stroke-width="2"/>
+              </svg>
+            </div>
+            <h3>Theory questions</h3>
+            <p>Practice A/B/C/D questions and learn the correct answers.</p>
+          </div>
+
+          <div class="cardx">
+            <div class="icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path d="M12 2v6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <path d="M7 4h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <path d="M12 8a8 8 0 1 1-8 8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <path d="M12 12l4 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <h3>Mock test mode</h3>
+            <p>Timed tests that feel like the real exam.</p>
+          </div>
+
+          <div class="cardx">
+            <div class="icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path d="M4 13l4 4L20 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <h3>Review & retake</h3>
+            <p>Check results, review mistakes, and retake to improve.</p>
+          </div>
+
+          <div class="cardx">
+            <div class="icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path d="M3 12h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <path d="M12 3v18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <h3>Quick actions</h3>
+            <p>Jump into Theory, Hazard, Highway Code, or Road Signs.</p>
+          </div>
+
+          <div class="cardx">
+            <div class="icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path d="M4 19V5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <path d="M8 17V9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <path d="M12 19V7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <path d="M16 15V11" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <path d="M20 19V6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <h3>Progress tracking</h3>
+            <p>See your improvement and focus on weak topics.</p>
+          </div>
+
+          <div class="cardx">
+            <div class="icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path d="M12 2l4 7H8l4-7Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                <path d="M4 22h16l-2-13H6L4 22Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <h3>Road signs & code</h3>
+            <p>Quick access for revision alongside practice.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIDEO -->
+    <section class="section" id="demo">
+      <div class="wrap">
+        <h2>Watch the app in action</h2>
+        <p>A short demo to see the flow and UI.</p>
+
+        <div class="panel video">
+          <video controls playsinline preload="metadata">
+            <source src="/assets/app-demo.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        </div>
+      </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section class="section" id="how">
+      <div class="wrap">
+        <h2>How to use it (simple)</h2>
+        <p>3 steps that match how learners actually study.</p>
+
+        <div class="grid3">
+          <div class="cardx">
+            <h3>1) Practice by topic</h3>
+            <p>Start with sections you find difficult and build confidence quickly.</p>
+          </div>
+          <div class="cardx">
+            <h3>2) Take mock tests</h3>
+            <p>Switch to mock tests once you’re comfortable with topics.</p>
+          </div>
+          <div class="cardx">
+            <h3>3) Review mistakes</h3>
+            <p>Retake and focus on wrong answers until your score improves.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FINAL CTA -->
+    <section class="final">
+      <div class="wrap">
+        <div class="cta-box">
+          <div>
+            <h2>Ready to start practicing?</h2>
+            <p>Download the app and begin with topic practice today.</p>
+          </div>
+          <div class="cta">
+            <!-- Replace with your real store URLs -->
+            <a class="btn primary" href="https://play.google.com/store" target="_blank" rel="noopener">Google Play</a>
+            <a class="btn green" href="https://apps.apple.com" target="_blank" rel="noopener">App Store</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SUPPORT -->
+    <section class="section" id="support">
+      <div class="wrap">
+        <h2>Support</h2>
+        <p>Email: <a href="mailto:ukdrivingtheorytestkit@gmail.com">ukdrivingtheorytestkit@gmail.com</a></p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap">
+      <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:space-between">
+        <div>© <span id="year"></span> UK Driving Theory Test</div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap">
+          <!-- optional links if you add these pages later -->
+          <a href="/privacy.html">Privacy</a>
+          <a href="/delete-account.html">Delete account</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // year
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // screenshot tabs
+    const img = document.getElementById("shot");
+    const tabs = Array.from(document.querySelectorAll(".tab"));
+    tabs.forEach(t => {
+      t.addEventListener("click", () => {
+        tabs.forEach(x => x.classList.remove("active"));
+        t.classList.add("active");
+        img.src = t.dataset.img;
+      });
+    });
+  </script>
+</body>
+</html>
