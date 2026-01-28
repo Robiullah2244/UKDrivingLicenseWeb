@@ -63,18 +63,14 @@
       white-space:nowrap;
     }
     .logo{
-      width:36px;height:36px;border-radius:12px;
-      background: linear-gradient(135deg, var(--blue-600), var(--blue-700));
+      width:40px;
+      height:40px;
+      border-radius:12px;
+      background:#fff;
       border:1px solid rgba(255,255,255,.16);
       box-shadow: 0 20px 45px rgba(17,71,214,.22);
-      position:relative;
-      overflow:hidden;
-    }
-    .logo:after{
-      content:"";
-      position:absolute; inset:-30px;
-      background: radial-gradient(circle at 30% 20%, rgba(255,255,255,.35), rgba(255,255,255,0) 55%);
-      transform: rotate(12deg);
+      object-fit: contain;
+      padding:2px;
     }
 
     .links{
@@ -397,7 +393,7 @@
     <div class="wrap">
       <div class="nav-inner">
         <div class="brand">
-          <div class="logo" aria-hidden="true"></div>
+          <img class="logo" src="assets/logo.jpeg" alt="Driving Theory Practice kit logo" />
           <div>Driving Theory Practice kit</div>
         </div>
 
